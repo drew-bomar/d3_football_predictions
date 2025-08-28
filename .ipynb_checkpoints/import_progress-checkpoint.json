@@ -1,0 +1,28 @@
+{
+  "completed_weeks": [],
+  "failed_weeks": {},
+  "partial_weeks": {
+    "2021-1": {
+      "imported": 107,
+      "failed": [
+        [
+          "5886031",
+          "No stats available"
+        ],
+        [
+          "5885948",
+          "No stats available"
+        ]
+      ],
+      "elapsed_seconds": 111.70645713806152
+    }
+  },
+  "statistics": {
+    "total_games_imported": 107,
+    "total_api_calls": 0,
+    "total_import_time_seconds": 111.70645713806152,
+    "sessions": []
+  },
+  "current_week": null,
+  "last_updated": "2025-08-20T00:30:17.246431"
+}

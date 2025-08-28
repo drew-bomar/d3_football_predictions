@@ -1,0 +1,38 @@
+NCAA D3 Football Season Report - 2024
+============================================================
+
+Collection Summary:
+  Total Games: 438/440
+  Success Rate: 99.5%
+  Teams Tracked: 243
+  Collection Time: 5.5 minutes
+
+Final Standings (by record):
+
+Team                           Record     Win %    SOS     
+--------------------------------------------------------
+depauw                         3-0          1.000    0.545   
+aurora                         4-0          1.000    0.538   
+wash-jeff                      4-0          1.000    0.533   
+saint-johns-mn                 4-0          1.000    0.500   
+hardin-simmons                 4-0          1.000    0.500   
+wartburg                       3-0          1.000    0.455   
+kings-pa                       3-0          1.000    0.444   
+johns-hopkins                  4-0          1.000    0.438   
+suny-cortland                  4-0          1.000    0.438   
+north-central-il               4-0          1.000    0.438   
+monmouth-il                    4-0          1.000    0.438   
+mt-st-joseph                   4-0          1.000    0.429   
+maryville-tn                   3-0          1.000    0.417   
+centre                         4-0          1.000    0.400   
+northwestern-st-paul           4-0          1.000    0.375   
+umass-dartmouth                3-0          1.000    0.333   
+western-conn-st                3-0          1.000    0.333   
+mount-union                    4-0          1.000    0.333   
+st-norbert                     3-0          1.000    0.333   
+hope                           3-0          1.000    0.333   
+alma                           3-0          1.000    0.333   
+hobart                         4-0          1.000    0.333   
+marietta                       4-0          1.000    0.333   
+randolph-macon                 4-0          1.000    0.312   
+brockport                      4-0          1.000    0.312   

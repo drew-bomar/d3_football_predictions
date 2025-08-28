@@ -1,0 +1,55 @@
+NCAA D3 Football Rolling Statistics Summary - 2024
+============================================================
+
+
+Top 10 Teams - Scoring (5-week avg):
+----------------------------------------
+ 1. Adrian                         0.0 (Win%: 0.0%)
+ 2. Albion                         0.0 (Win%: 0.0%)
+ 3. Albright                       0.0 (Win%: 0.0%)
+ 4. Alfred                         0.0 (Win%: 0.0%)
+ 5. Allegheny                      0.0 (Win%: 0.0%)
+ 6. Alma                           0.0 (Win%: 0.0%)
+ 7. Alvernia                       0.0 (Win%: 0.0%)
+ 8. Amherst                        0.0 (Win%: 0.0%)
+ 9. Augsburg                       0.0 (Win%: 0.0%)
+10. Augustana (IL)                 0.0 (Win%: 0.0%)
+
+Top 10 Teams - Total Offense (5-week avg):
+----------------------------------------
+ 1. Adrian                         0.0 (Win%: 0.0%)
+ 2. Albion                         0.0 (Win%: 0.0%)
+ 3. Albright                       0.0 (Win%: 0.0%)
+ 4. Alfred                         0.0 (Win%: 0.0%)
+ 5. Allegheny                      0.0 (Win%: 0.0%)
+ 6. Alma                           0.0 (Win%: 0.0%)
+ 7. Alvernia                       0.0 (Win%: 0.0%)
+ 8. Amherst                        0.0 (Win%: 0.0%)
+ 9. Augsburg                       0.0 (Win%: 0.0%)
+10. Augustana (IL)                 0.0 (Win%: 0.0%)
+
+Top 10 Teams - Turnover Margin (5-week avg):
+----------------------------------------
+ 1. Adrian                         0.0 (Win%: 0.0%)
+ 2. Albion                         0.0 (Win%: 0.0%)
+ 3. Albright                       0.0 (Win%: 0.0%)
+ 4. Alfred                         0.0 (Win%: 0.0%)
+ 5. Allegheny                      0.0 (Win%: 0.0%)
+ 6. Alma                           0.0 (Win%: 0.0%)
+ 7. Alvernia                       0.0 (Win%: 0.0%)
+ 8. Amherst                        0.0 (Win%: 0.0%)
+ 9. Augsburg                       0.0 (Win%: 0.0%)
+10. Augustana (IL)                 0.0 (Win%: 0.0%)
+
+Top 10 Teams - Third Down % (5-week avg):
+----------------------------------------
+ 1. Adrian                         0.0 (Win%: 0.0%)
+ 2. Albion                         0.0 (Win%: 0.0%)
+ 3. Albright                       0.0 (Win%: 0.0%)
+ 4. Alfred                         0.0 (Win%: 0.0%)
+ 5. Allegheny                      0.0 (Win%: 0.0%)
+ 6. Alma                           0.0 (Win%: 0.0%)
+ 7. Alvernia                       0.0 (Win%: 0.0%)
+ 8. Amherst                        0.0 (Win%: 0.0%)
+ 9. Augsburg                       0.0 (Win%: 0.0%)
+10. Augustana (IL)                 0.0 (Win%: 0.0%)

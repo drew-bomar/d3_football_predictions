@@ -1,0 +1,55 @@
+NCAA D3 Football Rolling Statistics Summary - 2024
+============================================================
+
+
+Top 10 Teams - Scoring (5-week avg):
+----------------------------------------
+ 1. North Central (IL)            64.7 (Win%: 100.0%)
+ 2. Susquehanna                   64.3 (Win%: 100.0%)
+ 3. Wilkes                        58.7 (Win%: 100.0%)
+ 4. Bethel (MN)                   58.3 (Win%: 100.0%)
+ 5. Wartburg                      58.0 (Win%: 100.0%)
+ 6. Alma                          56.5 (Win%: 100.0%)
+ 7. Dubuque                       56.5 (Win%: 100.0%)
+ 8. Linfield                      55.3 (Win%: 100.0%)
+ 9. Wabash                        54.3 (Win%: 100.0%)
+10. Mt. St. Joseph                53.7 (Win%: 100.0%)
+
+Top 10 Teams - Total Offense (5-week avg):
+----------------------------------------
+ 1. Alma                         681.0 (Win%: 100.0%)
+ 2. Susquehanna                  635.3 (Win%: 100.0%)
+ 3. Wartburg                     585.0 (Win%: 100.0%)
+ 4. Lakeland                     560.0 (Win%: 100.0%)
+ 5. Springfield                  559.5 (Win%: 100.0%)
+ 6. Dubuque                      559.0 (Win%: 100.0%)
+ 7. Saint John's (MN)            554.7 (Win%: 100.0%)
+ 8. Hope                         542.0 (Win%: 100.0%)
+ 9. Aurora                       538.3 (Win%: 100.0%)
+10. Mt. St. Joseph               534.3 (Win%: 100.0%)
+
+Top 10 Teams - Turnover Margin (5-week avg):
+----------------------------------------
+ 1. St. Norbert                    3.5 (Win%: 100.0%)
+ 2. Stevenson                      3.5 (Win%: 100.0%)
+ 3. Delaware Valley                3.0 (Win%: 100.0%)
+ 4. Grove City                     2.7 (Win%: 66.7%)
+ 5. Salve Regina                   2.5 (Win%: 100.0%)
+ 6. Randolph-Macon                 2.3 (Win%: 100.0%)
+ 7. Wabash                         2.3 (Win%: 100.0%)
+ 8. Bluffton                       2.0 (Win%: 66.7%)
+ 9. Dubuque                        2.0 (Win%: 100.0%)
+10. Elmhurst                       2.0 (Win%: 33.3%)
+
+Top 10 Teams - Third Down % (5-week avg):
+----------------------------------------
+ 1. Springfield                    0.7 (Win%: 100.0%)
+ 2. Hope                           0.7 (Win%: 100.0%)
+ 3. Cortland                       0.7 (Win%: 100.0%)
+ 4. Susquehanna                    0.7 (Win%: 100.0%)
+ 5. Wash. & Jeff.                  0.6 (Win%: 100.0%)
+ 6. Salisbury                      0.6 (Win%: 100.0%)
+ 7. Howard Payne                   0.6 (Win%: 0.0%)
+ 8. Husson                         0.6 (Win%: 100.0%)
+ 9. Wabash                         0.6 (Win%: 100.0%)
+10. Gallaudet                      0.6 (Win%: 100.0%)

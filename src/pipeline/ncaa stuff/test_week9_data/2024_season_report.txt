@@ -1,0 +1,38 @@
+NCAA D3 Football Season Report - 2024
+============================================================
+
+Collection Summary:
+  Total Games: 113/114
+  Success Rate: 99.1%
+  Teams Tracked: 226
+  Collection Time: 1.7 minutes
+
+Final Standings (by record):
+
+Team                           Record     Win %    SOS     
+--------------------------------------------------------
+centre                         1-0          1.000    0.000   
+springfield                    1-0          1.000    0.000   
+shenandoah                     1-0          1.000    0.000   
+plymouth-st                    1-0          1.000    0.000   
+delaware-valley                1-0          1.000    0.000   
+rose-hulman                    1-0          1.000    0.000   
+coast-guard                    1-0          1.000    0.000   
+ithaca                         1-0          1.000    0.000   
+montclair-st                   1-0          1.000    0.000   
+otterbein                      1-0          1.000    0.000   
+rochester-ny                   1-0          1.000    0.000   
+mass-maritime                  1-0          1.000    0.000   
+colby                          1-0          1.000    0.000   
+kings-pa                       1-0          1.000    0.000   
+hartwick                       1-0          1.000    0.000   
+chris-newport                  1-0          1.000    0.000   
+susquehanna                    1-0          1.000    0.000   
+eastern                        1-0          1.000    0.000   
+ohio-wesleyan                  1-0          1.000    0.000   
+suny-maritime                  1-0          1.000    0.000   
+wooster                        1-0          1.000    0.000   
+gallaudet                      1-0          1.000    0.000   
+wesleyan-ct                    1-0          1.000    0.000   
+greenville                     1-0          1.000    0.000   
+brevard                        1-0          1.000    0.000   

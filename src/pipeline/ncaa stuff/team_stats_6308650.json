@@ -1,0 +1,247 @@
+{
+  "meta": {
+    "title": "TEAM STATS",
+    "teams": [
+      {
+        "homeTeam": "false",
+        "id": "2281",
+        "color": "#004971",
+        "shortname": "N.C. Wesleyan",
+        "seoName": "nc-wesleyan",
+        "sixCharAbbr": "NC WES"
+      },
+      {
+        "homeTeam": "true",
+        "id": "52124",
+        "color": "#006225",
+        "shortname": "Belhaven",
+        "seoName": "belhaven",
+        "sixCharAbbr": "BELH"
+      }
+    ]
+  },
+  "teams": [
+    {
+      "teamId": "2281",
+      "stats": [
+        {
+          "stat": "1st Downs",
+          "data": "16",
+          "breakdown": [
+            {
+              "stat": "Rushing",
+              "data": "5"
+            },
+            {
+              "stat": "Passing",
+              "data": "9"
+            },
+            {
+              "stat": "Penalty",
+              "data": "2"
+            }
+          ]
+        },
+        {
+          "stat": "Rushing",
+          "data": "90",
+          "breakdown": [
+            {
+              "stat": "Attempts",
+              "data": "25"
+            },
+            {
+              "stat": "Avg. Per Rush",
+              "data": "3.6"
+            }
+          ]
+        },
+        {
+          "stat": "Passing",
+          "data": "213",
+          "breakdown": [
+            {
+              "stat": "Attempts",
+              "data": "28"
+            },
+            {
+              "stat": "Completions",
+              "data": "15"
+            },
+            {
+              "stat": "Interceptions",
+              "data": "0"
+            },
+            {
+              "stat": "Avg. Per Pass",
+              "data": "14.2"
+            }
+          ]
+        },
+        {
+          "stat": "Total Offense",
+          "data": "303",
+          "breakdown": [
+            {
+              "stat": "Plays",
+              "data": "53"
+            },
+            {
+              "stat": "Avg. Per Play",
+              "data": "5.7"
+            }
+          ]
+        },
+        {
+          "stat": "Fumbles: Number-Lost",
+          "data": "2-1"
+        },
+        {
+          "stat": "Penalties: Number-Yards",
+          "data": "2-17"
+        },
+        {
+          "stat": "Punting: Number-Yards",
+          "data": "6-177",
+          "breakdown": [
+            {
+              "stat": "Avg. Per Punt",
+              "data": "41"
+            }
+          ]
+        },
+        {
+          "stat": "Punt Returns: Number-Yards",
+          "data": "1--1"
+        },
+        {
+          "stat": "Kickoff Returns: Number-Yards",
+          "data": "6-59"
+        },
+        {
+          "stat": "Interception Returns: Number-Yards",
+          "data": "0-0"
+        },
+        {
+          "stat": "Third-Down Conversions",
+          "data": "3-11"
+        },
+        {
+          "stat": "Fourth-Down Conversions",
+          "data": "1-2"
+        }
+      ]
+    },
+    {
+      "teamId": "52124",
+      "stats": [
+        {
+          "stat": "1st Downs",
+          "data": "19",
+          "breakdown": [
+            {
+              "stat": "Rushing",
+              "data": "13"
+            },
+            {
+              "stat": "Passing",
+              "data": "6"
+            },
+            {
+              "stat": "Penalty",
+              "data": "0"
+            }
+          ]
+        },
+        {
+          "stat": "Rushing",
+          "data": "234",
+          "breakdown": [
+            {
+              "stat": "Attempts",
+              "data": "49"
+            },
+            {
+              "stat": "Avg. Per Rush",
+              "data": "4.8"
+            }
+          ]
+        },
+        {
+          "stat": "Passing",
+          "data": "129",
+          "breakdown": [
+            {
+              "stat": "Attempts",
+              "data": "17"
+            },
+            {
+              "stat": "Completions",
+              "data": "12"
+            },
+            {
+              "stat": "Interceptions",
+              "data": "0"
+            },
+            {
+              "stat": "Avg. Per Pass",
+              "data": "10.8"
+            }
+          ]
+        },
+        {
+          "stat": "Total Offense",
+          "data": "363",
+          "breakdown": [
+            {
+              "stat": "Plays",
+              "data": "66"
+            },
+            {
+              "stat": "Avg. Per Play",
+              "data": "5.5"
+            }
+          ]
+        },
+        {
+          "stat": "Fumbles: Number-Lost",
+          "data": "1-1"
+        },
+        {
+          "stat": "Penalties: Number-Yards",
+          "data": "6-55"
+        },
+        {
+          "stat": "Punting: Number-Yards",
+          "data": "3-119",
+          "breakdown": [
+            {
+              "stat": "Avg. Per Punt",
+              "data": "39.3"
+            }
+          ]
+        },
+        {
+          "stat": "Punt Returns: Number-Yards",
+          "data": "3-49"
+        },
+        {
+          "stat": "Kickoff Returns: Number-Yards",
+          "data": "3-56"
+        },
+        {
+          "stat": "Interception Returns: Number-Yards",
+          "data": "0-0"
+        },
+        {
+          "stat": "Third-Down Conversions",
+          "data": "7-14"
+        },
+        {
+          "stat": "Fourth-Down Conversions",
+          "data": "1-2"
+        }
+      ]
+    }
+  ]
+}

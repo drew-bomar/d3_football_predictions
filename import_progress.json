@@ -1,0 +1,23 @@
+{
+  "completed_weeks": [
+    "2021-15",
+    "2021-16",
+    "2021-17",
+    "2021-18",
+    "2022-1",
+    "2022-2",
+    "2022-3",
+    "2022-4",
+    "2022-5"
+  ],
+  "failed_weeks": {},
+  "partial_weeks": {},
+  "statistics": {
+    "total_games_imported": 1066,
+    "total_api_calls": 0,
+    "total_import_time_seconds": 542.2593777179718,
+    "sessions": []
+  },
+  "current_week": null,
+  "last_updated": "2025-08-21T13:06:12.693528"
+}

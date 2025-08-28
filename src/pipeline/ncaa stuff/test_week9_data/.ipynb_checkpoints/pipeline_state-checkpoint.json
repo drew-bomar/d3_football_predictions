@@ -1,0 +1,11 @@
+{
+  "seasons_completed": [
+    2024
+  ],
+  "current_season": null,
+  "current_week": 9,
+  "total_games_processed": 113,
+  "total_games_failed": 0,
+  "start_time": "2025-07-28T23:54:15.931941",
+  "last_checkpoint": null
+}
