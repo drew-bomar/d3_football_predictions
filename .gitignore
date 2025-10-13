@@ -1,0 +1,12 @@
+*.zip
+*.pkl
+*.csv
+*.db
+*.sqlite
+__pycache__/
+*.pyc
+.DS_Store
+venv/
+.venv/
+.env
+*.log
