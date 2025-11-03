@@ -121,7 +121,22 @@ class SimplePipeline:
                         logger.info(f"Game {contest_id} is upcoming (no stats yet)")
                         # Import just the schedule without stats
                         translated = self.translator.translate_upcoming_game(game, week_number=week)
-                    
+
+                        # Validate and import
+                        is_valid, errors = self.translator.validate_translated_data(translated)
+                        if not is_valid:
+                            logger.error(f"Invalid data for {contest_id}: {errors}")
+                            failed.append((contest_id, f"Validation: {errors[0]}"))
+                            continue
+
+                        # Import to database (will have NULL scores)
+                        if self.game_importer.import_game(translated):
+                            imported += 1
+                            self.progress.update_week_progress(games_imported=1)
+                        continue     
+
+
+
                     if not game_stats['success']:
                         logger.warning(f"No stats for game {contest_id}")
                         failed.append((contest_id, "No stats available"))

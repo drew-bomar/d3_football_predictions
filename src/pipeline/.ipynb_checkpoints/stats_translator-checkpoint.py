@@ -175,8 +175,6 @@ class StatsTranslator:
         
         # Parse date
         game_date = self._parse_date(game_info.get('startDate'))
-
-        print("Imported Upcoming Game")
         
         return {
             'game': {
@@ -184,22 +182,15 @@ class StatsTranslator:
                 'game_date': game_date,
                 'year': game_date.year if game_date else None,
                 'week': week_number,
+                'home_team_name': home_team.get('nameShort'),
+                'away_team_name': away_team.get('nameShort'),
+                'home_team_seoname': home_team.get('seoname'),
+                'away_team_seoname': away_team.get('seoname'),
                 'home_score': None,  # NULL - game not played yet
                 'away_score': None,  # NULL - game not played yet
                 'status': 'scheduled'  # Mark as scheduled, not final
             },
-            'home_team': {
-                'seoname': home_team.get('seoname', '').lower(),
-                'nameShort': home_team.get('nameShort'),
-                'teamId': home_team.get('teamId')
-            },
-            'away_team': {
-                'seoname': away_team.get('seoname', '').lower(),
-                'nameShort': away_team.get('nameShort'),
-                'teamId': away_team.get('teamId')
-            },
-            'home_stats': None,  # No stats for upcoming games
-            'away_stats': None   # No stats for upcoming games
+            'team_stats': []  # No stats for upcoming games
         }
 
 
@@ -360,32 +351,41 @@ class StatsTranslator:
         
         if not game.get('away_team_name'):
             errors.append("Missing away team name")
+
+        is_upcoming = game.get('status') == 'scheduled'
         
         # Check team stats
         team_stats = translated_data.get('team_stats', [])
-        
-        if len(team_stats) != 2:
-            errors.append(f"Expected 2 team stat records, got {len(team_stats)}")
-        
-        # Check for required fields in stats
-        for i, stats in enumerate(team_stats):
-            # Check required fields
-            if stats.get('points_scored') is None:
-                errors.append(f"Team {i+1} missing required field: points_scored")
+
+        if is_upcoming:
+        # Upcoming games should have NO stats
+            if len(team_stats) != 0:
+                errors.append(f"Upcoming game should have 0 team stats, got {len(team_stats)}")
+
+        else:
             
-            if stats.get('points_allowed') is None:
-                errors.append(f"Team {i+1} missing required field: points_allowed")
+            if len(team_stats) != 2:
+                errors.append(f"Expected 2 team stat records, got {len(team_stats)}")
             
-            # Check for extreme values that might indicate bad data
-            total_yards = stats.get('total_offense_yards', 0) or 0
-            if total_yards > 1500:
-                errors.append(f"Team {i+1} has unrealistic total yards: {total_yards}")
-            
-            # Check for negative values where they shouldn't be
-            for field in ['first_downs', 'passing_attempts', 'rushing_attempts']:
-                value = stats.get(field, 0) or 0
-                if value < 0:
-                    errors.append(f"Team {i+1} has negative {field}: {value}")
+            # Check for required fields in stats
+            for i, stats in enumerate(team_stats):
+                # Check required fields
+                if stats.get('points_scored') is None:
+                    errors.append(f"Team {i+1} missing required field: points_scored")
+                
+                if stats.get('points_allowed') is None:
+                    errors.append(f"Team {i+1} missing required field: points_allowed")
+                
+                # Check for extreme values that might indicate bad data
+                total_yards = stats.get('total_offense_yards', 0) or 0
+                if total_yards > 1500:
+                    errors.append(f"Team {i+1} has unrealistic total yards: {total_yards}")
+                
+                # Check for negative values where they shouldn't be
+                for field in ['first_downs', 'passing_attempts', 'rushing_attempts']:
+                    value = stats.get(field, 0) or 0
+                    if value < 0:
+                        errors.append(f"Team {i+1} has negative {field}: {value}")
         
         is_valid = len(errors) == 0
         return is_valid, errors

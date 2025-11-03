@@ -77,33 +77,15 @@ class GameImporter:
         try:
             with self.db.get_session() as session:
                 # Check for duplicate BEFORE starting work
-                existing_game = session.query(Game).filter(
-                    Game.contest_id == contest_id).first()
-                
-                if existing_game:
-                    # Check if this is a scheduled game being updated with results
-                    if existing_game.home_score is None and existing_game.away_score is None:
-                        # Game was scheduled, now has results - UPDATE it
-                        logger.info(f"Game {contest_id} was scheduled, updating with results...")
-                        success = self._update_game_with_results(session, existing_game, translated_data)
-                        if success:
-                            session.commit()
-                            self.games_imported += 1
-                            return True
-                        else:
-                            session.rollback()
-                            self.games_failed.append((contest_id, "Update failed"))
-                            return False
+                if self._game_exists(session, contest_id):
+                    error_msg = f"Game {contest_id} already exists in database"
+                    logger.error(error_msg)
+                    
+                    if self.stop_on_duplicate:
+                        raise DuplicateGameError(error_msg)
                     else:
-                        # Game already has scores - true duplicate
-                        error_msg = f"Game {contest_id} already exists with scores"
-                        logger.error(error_msg)
-                        
-                        if self.stop_on_duplicate:
-                            raise DuplicateGameError(error_msg)
-                        else:
-                            self.games_skipped += 1
-                            return False
+                        self.games_skipped += 1
+                        return False
 
             # Resolve team IDs using Team Manager
             home_team_id, away_team_id = self._resolve_team_ids(
