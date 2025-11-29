@@ -154,7 +154,7 @@ class NCAAAPIClient:
         extensions = {
             "persistedQuery": {
                 "version": 1,
-                "sha256Hash": "b41348ee662d9236483167395b16bb6ab36b12e29081ef6cd767685ea8a2f59bd"
+                "sha256Hash": "b41348ee662d9236483167395b16bb6ab36b12e2908ef6cd767685ea8a2f59bd"
             }
         }
         

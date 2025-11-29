@@ -14,6 +14,7 @@ from src.pipeline.stats_translator import StatsTranslator
 from src.pipeline.team_manager import TeamManager
 from src.pipeline.game_importer import GameImporter, DuplicateGameError
 from src.pipeline.progress_tracker import ProgressTracker
+from src.database.games_model import Game
 
 # Set up logging
 logging.basicConfig(
@@ -103,18 +104,36 @@ class SimplePipeline:
                 try:
                     # Check if game exists (avoid unnecessary API call)
                     with self.db.get_session() as session:
-                        if self.game_importer._game_exists(session, contest_id):
-                            logger.debug(f"Game {contest_id} already exists, skipping")
-                            skipped += 1
+                        existing_game = session.query(Game).filter(Game.contest_id == contest_id).first()
+
+                        if existing_game:
+                            # Check if this is a scheduled game that now has results
+                            if existing_game.home_score is None and existing_game.away_score is None:
+                                logger.info(f"Game {contest_id} was scheduled, checking for results...")
+                                # Don't skip - let it proceed to fetch and update
+                            else:
+                                # Game already has scores - true duplicate
+                                logger.debug(f"Game {contest_id} already exists with scores, skipping")
+                                skipped += 1
+                                
+                                if stop_on_duplicate:
+                                    logger.info("Hit duplicate game, stopping week import")
+                                    break
+                                continue
+                        
+                         
+                    #     if self.game_importer._game_exists(session, contest_id):
+                    #         logger.debug(f"Game {contest_id} already exists, skipping")
+                    #         skipped += 1
                             
-                            if stop_on_duplicate:
-                                logger.info("Hit duplicate game, stopping week import")
-                                break
-                            continue
+                    #         if stop_on_duplicate:
+                    #             logger.info("Hit duplicate game, stopping week import")
+                    #             break
+                    #         continue
                     
                     # Fetch detailed game stats
-                    game_stats = self.api_client.get_game_stats(contest_id)
-                    self.api_calls += 1
+                        game_stats = self.api_client.get_game_stats(contest_id)
+                        self.api_calls += 1
 
                     #handle unplayed games
                     if game_stats.get('is_upcoming'): 

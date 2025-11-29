@@ -1,5 +1,5 @@
 """
-check_db_state.py - Enhanced version with rolling stats support
+db_inspector.py - Enhanced version with rolling stats and predictions support
 Provides comprehensive database state information and cleanup options
 """
 import sys
@@ -10,7 +10,7 @@ from sqlalchemy import text
 from datetime import datetime
 
 def check_database_state():
-    """Check what data currently exists in our database including rolling stats."""
+    """Check what data currently exists in our database including rolling stats and predictions."""
     db = DatabaseConnection()
     
     with db.get_session() as session:
@@ -27,6 +27,14 @@ def check_database_state():
             rolling_count = 0
             rolling_exists = False
         
+        # Check if predictions table exists and get count
+        try:
+            predictions_count = session.execute(text("SELECT COUNT(*) FROM predictions")).scalar()
+            predictions_exists = True
+        except:
+            predictions_count = 0
+            predictions_exists = False
+        
         print("=" * 60)
         print("DATABASE STATE CHECK")
         print("=" * 60)
@@ -34,6 +42,7 @@ def check_database_state():
         print(f"Games: {games_count}")
         print(f"Game Stats: {stats_count}")
         print(f"Rolling Stats: {rolling_count} {'✅' if rolling_exists else '❌ (table not created)'}")
+        print(f"Predictions: {predictions_count} {'✅' if predictions_exists else '❌ (table not created)'}")
         
         # Games by year/week summary
         if games_count > 0:
@@ -64,6 +73,75 @@ def check_database_state():
                 
                 week_list = [f"W{w}:{c}" for w, c in weeks_detail]
                 print(f"  {year}: {', '.join(week_list)}")
+        
+        # Predictions analysis
+        if predictions_exists and predictions_count > 0:
+            print("\n🎯 PREDICTIONS ANALYSIS:")
+            print("-" * 40)
+            
+            # Overall stats
+            pred_overall = session.execute(text("""
+                SELECT 
+                    COUNT(*) as total,
+                    COUNT(CASE WHEN was_correct IS NOT NULL THEN 1 END) as evaluated,
+                    COUNT(CASE WHEN was_correct = TRUE THEN 1 END) as correct,
+                    ROUND(AVG(CASE WHEN was_correct IS NOT NULL THEN 
+                        CASE WHEN was_correct THEN 1.0 ELSE 0.0 END 
+                    END) * 100, 1) as accuracy
+                FROM predictions
+            """)).fetchone()
+            
+            print(f"  Overall: {pred_overall[0]} predictions")
+            print(f"    Evaluated: {pred_overall[1]}")
+            if pred_overall[3]:
+                print(f"    Accuracy: {pred_overall[3]}%")
+            
+            # By year/week
+            pred_by_week = session.execute(text("""
+                SELECT year, week,
+                       COUNT(*) as total,
+                       COUNT(CASE WHEN was_correct IS NOT NULL THEN 1 END) as evaluated,
+                       ROUND(AVG(CASE WHEN was_correct IS NOT NULL THEN 
+                           CASE WHEN was_correct THEN 1.0 ELSE 0.0 END 
+                       END) * 100, 1) as accuracy
+                FROM predictions
+                GROUP BY year, week
+                ORDER BY year, week
+            """)).fetchall()
+            
+            print("\n  By Week:")
+            for year, week, total, evaluated, accuracy in pred_by_week:
+                eval_str = f"{evaluated} eval" if evaluated > 0 else "not eval"
+                acc_str = f", {accuracy}% acc" if accuracy else ""
+                print(f"    {year} W{week}: {total} preds ({eval_str}{acc_str})")
+            
+            # Sample predictions
+            sample_preds = session.execute(text("""
+                SELECT p.year, p.week,
+                       COALESCE(ht.short_name, ht.name) as home_team,
+                       COALESCE(at.short_name, at.name) as away_team,
+                       COALESCE(pw.short_name, pw.name) as predicted_winner,
+                       p.home_win_prob,
+                       p.was_correct,
+                       p.actual_home_score,
+                       p.actual_away_score
+                FROM predictions p
+                JOIN teams ht ON p.home_team_id = ht.id
+                JOIN teams at ON p.away_team_id = at.id
+                JOIN teams pw ON p.predicted_winner_id = pw.id
+                ORDER BY p.created_at DESC
+                LIMIT 3
+            """)).fetchall()
+            
+            if sample_preds:
+                print("\n  Sample Predictions (recent):")
+                for pred in sample_preds:
+                    prob = pred[5] * 100 if pred[5] else 0
+                    winner_name = pred[4]
+                    score = f"{pred[7]}-{pred[8]}" if pred[7] is not None else "Not played"
+                    correct = "✅" if pred[6] else ("❌" if pred[6] is not None else "⏳")
+                    print(f"    {pred[0]} W{pred[1]}: {pred[2]} vs {pred[3]}")
+                    print(f"      Predicted: {winner_name} ({prob:.1f}%) | {score} {correct}")
         
         # Rolling stats analysis
         if rolling_exists and rolling_count > 0:
@@ -154,6 +232,16 @@ def check_database_state():
         else:
             orphan_rolling = 0
         
+        # Unevaluated predictions
+        if predictions_exists:
+            unevaluated_preds = session.execute(text("""
+                SELECT COUNT(*)
+                FROM predictions
+                WHERE was_correct IS NULL
+            """)).scalar()
+        else:
+            unevaluated_preds = 0
+        
         issues = []
         if orphan_stats > 0:
             issues.append(f"  ❌ {orphan_stats} orphaned game stats")
@@ -161,6 +249,8 @@ def check_database_state():
             issues.append(f"  ❌ {games_no_stats} games missing stats")
         if orphan_rolling > 0:
             issues.append(f"  ❌ {orphan_rolling} orphaned rolling stats")
+        if unevaluated_preds > 0:
+            issues.append(f"  ⚠️  {unevaluated_preds} predictions not evaluated")
         
         if issues:
             for issue in issues:
@@ -173,8 +263,10 @@ def check_database_state():
             'games': games_count,
             'stats': stats_count,
             'rolling': rolling_count,
+            'predictions': predictions_count,
             'has_data': games_count > 0,
-            'has_rolling': rolling_exists and rolling_count > 0
+            'has_rolling': rolling_exists and rolling_count > 0,
+            'has_predictions': predictions_exists and predictions_count > 0
         }
 
 def clean_database(year=None, week=None, dry_run=True):
@@ -204,15 +296,32 @@ def clean_database(year=None, week=None, dry_run=True):
             except:
                 rolling = 0
             
+            try:
+                predictions = session.execute(text("""
+                    SELECT COUNT(*) FROM predictions
+                    WHERE year = :year AND week = :week
+                """), {'year': year, 'week': week}).scalar()
+            except:
+                predictions = 0
+            
             print(f"\nDeleting {year} Week {week} would remove:")
             print(f"  - {games} games")
             print(f"  - {stats} stat records")
             print(f"  - {rolling} rolling stat records")
+            print(f"  - {predictions} predictions")
             
             if not dry_run and games > 0:
                 confirm = input(f"Delete {year} Week {week}? (yes/no): ")
                 if confirm.lower() == 'yes':
                     # Order matters due to foreign keys
+                    try:
+                        session.execute(text("""
+                            DELETE FROM predictions
+                            WHERE year = :year AND week = :week
+                        """), {'year': year, 'week': week})
+                    except:
+                        pass
+                    
                     session.execute(text("""
                         DELETE FROM team_rolling_stats 
                         WHERE game_id IN (
@@ -240,12 +349,27 @@ def clean_database(year=None, week=None, dry_run=True):
                 SELECT COUNT(*) FROM games WHERE year = :year
             """), {'year': year}).scalar()
             
+            try:
+                predictions = session.execute(text("""
+                    SELECT COUNT(*) FROM predictions WHERE year = :year
+                """), {'year': year}).scalar()
+            except:
+                predictions = 0
+            
             print(f"\nDeleting entire year {year} would remove:")
             print(f"  - {games} games (and associated stats)")
+            print(f"  - {predictions} predictions")
             
             if not dry_run and games > 0:
                 confirm = input(f"Delete ALL of {year}? (yes/no): ")
                 if confirm.lower() == 'yes':
+                    try:
+                        session.execute(text("""
+                            DELETE FROM predictions WHERE year = :year
+                        """), {'year': year})
+                    except:
+                        pass
+                    
                     session.execute(text("""
                         DELETE FROM team_rolling_stats 
                         WHERE year = :year
@@ -274,10 +398,16 @@ def clean_database(year=None, week=None, dry_run=True):
             except:
                 rolling = 0
             
+            try:
+                predictions = session.execute(text("SELECT COUNT(*) FROM predictions")).scalar()
+            except:
+                predictions = 0
+            
             print(f"\nFull database cleanup would delete:")
             print(f"  - {games} games")
             print(f"  - {stats} game stat records")
             print(f"  - {rolling} rolling stat records")
+            print(f"  - {predictions} predictions")
             print(f"  - {teams} teams")
             
             if not dry_run:
@@ -285,6 +415,11 @@ def clean_database(year=None, week=None, dry_run=True):
                 confirm = input("Type 'DELETE ALL' to confirm: ")
                 if confirm == "DELETE ALL":
                     # Order matters due to foreign keys
+                    try:
+                        session.execute(text("DELETE FROM predictions"))
+                    except:
+                        pass
+                    
                     try:
                         session.execute(text("DELETE FROM team_rolling_stats"))
                     except:
@@ -319,6 +454,27 @@ def clean_rolling_stats_only():
         except Exception as e:
             print(f"Error: {e}")
 
+def clean_predictions_only():
+    """Clean only the predictions table."""
+    db = DatabaseConnection()
+    
+    with db.get_session() as session:
+        try:
+            count = session.execute(text("SELECT COUNT(*) FROM predictions")).scalar()
+            
+            if count > 0:
+                print(f"\nThis will delete {count} prediction records")
+                confirm = input("Delete all predictions? (yes/no): ")
+                
+                if confirm.lower() == 'yes':
+                    session.execute(text("DELETE FROM predictions"))
+                    session.commit()
+                    print("✅ Predictions cleared!")
+            else:
+                print("No predictions to delete")
+        except Exception as e:
+            print(f"Error: {e}")
+
 def show_menu():
     """Display interactive menu for database management."""
     print("\n" + "=" * 60)
@@ -328,11 +484,12 @@ def show_menu():
     print("2. Clean specific week (e.g., 2022 Week 5)")
     print("3. Clean entire year")
     print("4. Clean ONLY rolling stats")
-    print("5. Clean EVERYTHING (nuclear option)")
-    print("6. Exit")
+    print("5. Clean ONLY predictions")
+    print("6. Clean EVERYTHING (nuclear option)")
+    print("7. Exit")
     print("-" * 60)
     
-    return input("Your choice (1-6): ")
+    return input("Your choice (1-7): ")
 
 def main():
     """Main entry point with interactive menu."""
@@ -361,16 +518,19 @@ def main():
             clean_rolling_stats_only()
             
         elif choice == '5':
-            clean_database(dry_run=False)
+            clean_predictions_only()
             
         elif choice == '6':
+            clean_database(dry_run=False)
+            
+        elif choice == '7':
             print("Goodbye!")
             break
             
         else:
             print("Invalid choice")
         
-        if choice != '6':
+        if choice != '7':
             input("\nPress Enter to continue...")
 
 if __name__ == "__main__":
@@ -381,4 +541,4 @@ if __name__ == "__main__":
     if input("\nEnter interactive menu? (y/n): ").lower() == 'y':
         main()
     else:
-        print("\nRun 'python check_db_state.py' again for menu")
+        print("\nRun 'python db_inspector.py' again for menu")
