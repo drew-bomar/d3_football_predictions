@@ -105,7 +105,7 @@ class BucketGame(BaseModel):
     home_team : TeamInfo
     away_team : TeamInfo
     predicted_winner: str
-    confidence : int
+    confidence : float
     home_win_prob: float
     away_win_prob: float 
     home_score: int
