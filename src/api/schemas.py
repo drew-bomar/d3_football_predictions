@@ -34,7 +34,7 @@ class PredictionGame(BaseModel):
     home_team : TeamInfo
     away_team : TeamInfo
 
-    predictied_winner : str   #"home" or "away"
+    predicted_winner : str   #"home" or "away"
     home_win_prob : float       # 0.0-1.0
     away_win_prob : float 
     confidence : float
@@ -50,7 +50,7 @@ class PredictionGame(BaseModel):
     is_upset : Optional[bool] = None
 
 
-class WeekPredictionsRespone(BaseModel):
+class WeekPredictionsResponse(BaseModel):
     """
     full response for GET /api/prediction/{year}/{week}
     """

@@ -8,6 +8,7 @@ This file does three things:
 """
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from src.api.routes import predictions
 
 #create the app instance, this is what will be run
 app = FastAPI(
@@ -47,3 +48,4 @@ def health_check():
         "status": "healthy"
     }
 
+app.include_router(predictions.router)
