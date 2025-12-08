@@ -15,7 +15,7 @@ function PredictionsPage(){
     const [loading, setLoading] = useState(true) // currently loading the page
     const [error, setError] = useState(null) //encountered an error
 
-    useEffect(() => {
+    
     async function loadPredictions() {
       try {
         setLoading(true)
@@ -30,8 +30,9 @@ function PredictionsPage(){
       }
     }
 
-    loadPredictions()
-  }, [selectedYear, selectedWeek]) //the dependecies, rerun when these change
+    useEffect(() => {
+        loadPredictions()
+    }, [])
 
   //show the data 
   return(
@@ -73,6 +74,16 @@ function PredictionsPage(){
                 ))}
                 </select>
             </div>
+
+        {/*Find Button*/}
+        <div className = "flex items-end">
+            <button
+                onClick={loadPredictions}
+                className= "bg-purple-600 text-white px-6 py-2 rounded hover:bg-purple-700"
+            >
+                FIND
+            </button>
+        </div>
      </div>
 
     {/*Loading State*/}
