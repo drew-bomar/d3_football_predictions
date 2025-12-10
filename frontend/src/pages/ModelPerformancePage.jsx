@@ -1,3 +1,5 @@
+// src/pages/ModelPerformancePager.jsx
+
 import { useState, useEffect} from 'react'
 import { getAccuracy, getCalibration, getGamesByBucket } from '../api/stats'
 
@@ -84,7 +86,7 @@ function ModelPerformancePage(){
                 <div className = "bg-white rounded-lg shadow p-4">
                     <p className="text-sm text-gray-500">Overall Accuracy</p>
                     <p className="text-3xl font-bold text-purple-600">
-                        {(accuracy.overall.accuracy * 100).toFixed(1)}%
+                        {(accuracy.overall.accuracy * 100).toFixed()}%
                     </p>
                     <p className= "text-m text-gray-500 mt-1">
                         {accuracy.overall.correct}/{accuracy.overall.games} games
@@ -146,7 +148,7 @@ function ModelPerformancePage(){
                     <Bar 
                         dataKey="actual_accuracy" 
                         name="Actual" 
-                        fill="#10b981" 
+                        fill="#40b9f6ff" 
                         cursor = "pointer"
                         onClick={(data) => handleBarClick(data)}
                     />

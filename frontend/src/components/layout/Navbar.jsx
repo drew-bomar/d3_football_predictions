@@ -11,6 +11,9 @@ function Navbar() {
           <Link to="/" className="hover:text-purple-200">
             Predictions
           </Link>
+          <Link to="/simulate" className="hover:text-purple-200">
+            Matchup Simulator
+          </Link>
           <Link to="/model-performance" className="hover:text-purple-200">
             Model Performance
           </Link>

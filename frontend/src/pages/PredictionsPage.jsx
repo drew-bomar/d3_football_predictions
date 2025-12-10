@@ -1,9 +1,10 @@
+//src/pages/PredictionsPage.jsx
 import { useState, useEffect} from 'react'
 import { getPredictions } from '../api/predictions'
 
 //hardcode the available options until we get /api/meta/seasons running
 const AVAILABLE_YEARS = [2025]
-const AVAILABLE_WEEKS = [5,6,7,8,9,10,11,12] //complete predictions for more weeks to add more weeks
+const AVAILABLE_WEEKS = [5,6,7,8,9,10,11,12,13] //complete predictions for more weeks to add more weeks
 
 function PredictionsPage(){
     //filter states
