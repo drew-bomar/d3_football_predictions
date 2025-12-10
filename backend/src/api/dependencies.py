@@ -10,6 +10,8 @@ import os
 from typing import Generator
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, Session
+from functools import lru_cache
+from src.models.matchup_predictor import MatchupPredictor
 
 
 #check environment variable first, then fall back to loacl default
@@ -23,6 +25,11 @@ engine = create_engine(DATABASE_URL)
 
 #create session factory, each call to SessionLocal() creates a new database session
 SessionLocal = sessionmaker(autocommit =False, autoflush= False, bind = engine)
+
+@lru_cache()
+def get_predictor() -> MatchupPredictor:
+    """Load predictor once, reuse for all requests."""
+    return MatchupPredictor()
 
 def get_db() -> Generator[Session, None, None]:
     """

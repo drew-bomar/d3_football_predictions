@@ -7,12 +7,15 @@ from sqlalchemy.orm import Session
 from sqlalchemy import text
 from typing import Optional
 
-from src.api.dependencies import get_db
+from src.api.dependencies import get_db, get_predictor
 from src.api.schemas import (
     WeekPredictionsResponse,
     PredictionGame,
-    TeamInfo
+    TeamInfo,
+    SimulationResponse
 )
+
+from src.models.matchup_predictor import MatchupPredictor
 
 router = APIRouter(
     prefix = "/api",
@@ -210,3 +213,37 @@ def get_week_predictions(
         accuracy = accuracy,
         predictions=predictions
 )
+
+@router.get("/simulate", response_model = SimulationResponse)
+def simulate_matchup(
+    home_team_id: int,
+    away_team_id :int,
+    db: Session = Depends(get_db),
+    predictor: MatchupPredictor = Depends(get_predictor)
+):
+    """
+    Simulate a matchup between any two teams
+
+    Query:
+        home_team_id: ID of the home team
+        away_team_id: ID of the away team
+    """
+    if home_team_id == away_team_id:
+        raise HTTPException(
+            status_code=400,
+            detail="Home and away team cannot be the same"
+        )
+    result = predictor.predict(db, home_team_id, away_team_id)
+
+    if 'error' in result:
+        raise HTTPException(status_code= 404, detail = result['error'])
+    
+    return SimulationResponse(
+        home_team=TeamInfo(**result['home_team']),
+        away_team=TeamInfo(**result['away_team']),
+        predicted_winner=result['predicted_winner'],
+        home_win_prob=result['home_win_prob'],
+        away_win_prob=result['away_win_prob'],
+        confidence=result['confidence'],
+        confidence_bucket=calculate_confidence_bucket(result['confidence'])
+    )

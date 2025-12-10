@@ -10,6 +10,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from src.api.routes import predictions
 from src.api.routes import stats
+from src.api.routes import meta
 
 #create the app instance, this is what will be run
 app = FastAPI(
@@ -51,3 +52,4 @@ def health_check():
 
 app.include_router(predictions.router)
 app.include_router(stats.router)
+app.include_router(meta.router)

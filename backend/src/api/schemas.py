@@ -121,3 +121,32 @@ class GamesByBucketResponse(BaseModel):
     bucket_max : float
     label : str
     games : list[BucketGame]
+
+class SimulationResponse(BaseModel):
+    """
+    Response for GET /api/simulate
+    """
+    home_team: TeamInfo
+    away_team: TeamInfo
+    predicted_winner: str
+    home_win_prob: float
+    away_win_prob: float
+    confidence: float
+    confidence_bucket: str
+
+class SeasonMeta(BaseModel):
+    """
+    Metadata about a seasonn's available predictions
+    """
+    year: int
+    weeks_with_predictions : list[int]
+
+class MetaResponse(BaseModel):
+    """
+    Response for GET /api/meta
+    General metadata about available data
+    """
+    teams: list[TeamInfo]
+    team_count: int
+    seasons: list[SeasonMeta]
+
