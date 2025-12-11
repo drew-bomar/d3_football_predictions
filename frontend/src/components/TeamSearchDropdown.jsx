@@ -39,16 +39,16 @@ function TeamSearchDropdown({ teams, selectedTeam, onSelect, label }) {
             </label>
 
             {selectedTeam ? (
-                <div className="bg-slate-800 border border-slate-600 rounded px-3 py-2 flex justify-between items-center">
-                    <span className="text-white">{selectedTeam.name}</span>
+                <div className="flex items-center justify-between rounded-xl border border-purple-500/60 bg-black/80 px-3.5 py-2.5 text-sm shadow-[0_0_0_1px_rgba(15,23,42,0.8)]">
+                    <span className="text-slate-100">{selectedTeam.name}</span>
                     <button
-                        onClick={() => onSelect(null)}
-                        className="text-slate-400 hover:text-white"
+                    onClick={() => onSelect(null)}
+                    className="ml-3 text-slate-400 hover:text-slate-100 transition-colors"
                     >
-                        ✕
+                    ✕
                     </button>
                 </div>
-            ) : (
+                ) : (
                 <input
                     type="text"
                     value={searchText}
@@ -57,8 +57,8 @@ function TeamSearchDropdown({ teams, selectedTeam, onSelect, label }) {
                         setIsOpen(true)
                     }}
                     placeholder="Type to search..."
-                    className="w-full bg-slate-800 border border-slate-600 rounded px-3 py-2 text-white placeholder-slate-500 focus:border-violet-500 focus:outline-none"
-                />
+                    className="w-full rounded-xl border border-purple-500/60 bg-black/80 px-3.5 py-2.5 text-sm text-slate-100 placeholder-slate-500 shadow-[0_0_0_1px_rgba(15,23,42,0.8)] outline-none focus:border-purple-300 focus:ring-0"
+                    />
             )}
 
             {showDropdown && (

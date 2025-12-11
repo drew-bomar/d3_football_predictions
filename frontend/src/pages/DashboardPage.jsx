@@ -36,6 +36,7 @@ function DashboardPage() {
   const [awayTeam, setAwayTeam] = useState(null)
   const [simResult, setSimResult] = useState(null)
   const [simLoading, setSimLoading] = useState(false)
+  const [simError, setSimError] = useState(null)
   
   // Predictions filter state
   const [selectedYear, setSelectedYear] = useState(2025)
@@ -124,15 +125,24 @@ function DashboardPage() {
   // ============ SIMULATOR ============
   async function runSimulation() {
     if (!homeTeam || !awayTeam) return
-    
+
     setSimLoading(true)
     setSimResult(null)
-    
+    setSimError(null)
+
     try {
       const result = await simulateMatchup(homeTeam.id, awayTeam.id)
       setSimResult(result)
     } catch (err) {
       console.error('Simulation failed:', err)
+
+      if (err.status === 404) {
+        setSimError(
+          'The model does not have enough recent data for one or both of these teams yet.'
+        )
+      } else {
+        setSimError('Something went wrong while simulating this matchup. Please try again.')
+      }
     } finally {
       setSimLoading(false)
     }
@@ -199,25 +209,25 @@ function DashboardPage() {
 
           {/* Stats Row */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-            <div className="card-static">
+            <div className="card">
               <p className="text-slate-400 text-sm">Overall Accuracy</p>
               <p className="text-3xl font-bold text-violet-400">
                 {(accuracy.overall.accuracy * 100).toFixed(1)}%
               </p>
             </div>
-            <div className="card-static">
+            <div className="card">
               <p className="text-slate-400 text-sm">Games Predicted</p>
               <p className="text-3xl font-bold text-white">
                 {accuracy.overall.games}
               </p>
             </div>
-            <div className="card-static">
+            <div className="card">
               <p className="text-slate-400 text-sm">Correct Picks</p>
               <p className="text-3xl font-bold text-emerald-400">
                 {accuracy.overall.correct}
               </p>
             </div>
-            <div className="card-static">
+            <div className="card">
               <p className="text-slate-400 text-sm">Current Season</p>
               <p className="text-3xl font-bold text-white">
                 {accuracy.current_season}
@@ -229,7 +239,7 @@ function DashboardPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
             
             {/* Calibration Chart */}
-            <div className="card-static">
+            <div className="card">
               <h2 className="text-lg font-semibold text-white mb-4">
                 Model Calibration
               </h2>
@@ -262,7 +272,7 @@ function DashboardPage() {
                   <Bar 
                     dataKey="mean_predicted" 
                     name="Predicted" 
-                    fill="#8b5cf6" 
+                    fill="#7c3aed"  /* Darker purple - was #8b5cf6 */
                     radius={[4, 4, 0, 0]}
                     cursor="pointer"
                     onClick={handleBarClick}
@@ -270,7 +280,7 @@ function DashboardPage() {
                   <Bar 
                     dataKey="actual_accuracy" 
                     name="Actual" 
-                    fill="#10b981" 
+                    fill="#bf22ceff"  /* Light pink/fuchsia - was #10b981 */
                     radius={[4, 4, 0, 0]}
                     cursor="pointer"
                     onClick={handleBarClick}
@@ -336,68 +346,136 @@ function DashboardPage() {
               )}
             </div>
 
-            {/* Matchup Simulator */}
-            <div className="card-static">
-              <h2 className="text-lg font-semibold text-white mb-4">
+            {/* Matchup Simulator - in DashboardPage.jsx */}
+            <div className="card">
+              <h2 className="text-lg font-semibold text-white mb-1">
                 Matchup Simulator
               </h2>
-              <p className="text-slate-400 text-sm mb-4">
+              <p className="text-slate-400 text-sm mb-6">
                 Predict any hypothetical matchup
               </p>
               
-              <div className="grid grid-cols-2 gap-4 mb-4">
-                <TeamSearchDropdown
-                  teams={teams}
-                  selectedTeam={homeTeam}
-                  onSelect={setHomeTeam}
-                  label="Home Team"
-                />
-                <TeamSearchDropdown
-                  teams={teams}
-                  selectedTeam={awayTeam}
-                  onSelect={setAwayTeam}
-                  label="Away Team"
-                />
+              {/* Team Selection Area */}
+              <div className="mb-6">
+                {/* Labels row */}
+                <div className="mb-2 grid grid-cols-[1fr_auto_1fr] items-end">
+                  <span className="text-sm text-slate-400">Home Team</span>
+                  <span />
+                  <span className="text-sm text-slate-400 text-right">Away Team</span>
+                </div>
+
+                {/* Inputs + VS row */}
+                <div className="flex items-center gap-4">
+                  {/* Home input */}
+                  <div className="flex-1">
+                    <TeamSearchDropdown
+                      teams={teams}
+                      selectedTeam={homeTeam}
+                      onSelect={setHomeTeam}
+                      /* no label here – labels are above */
+                    />
+                  </div>
+
+                  {/* VS badge – now centered to inputs only */}
+                  <div className="flex-shrink-0 flex items-center justify-center">
+                    <div className="relative flex items-center justify-center">
+                      {/* outer ring — 48x48 */}
+                      <div className="h-12 w-12 rounded-full bg-gradient-to-br from-purple-500 to-fuchsia-500 shadow-[0_0_0_1px_rgba(248,250,252,0.15)] shadow-purple-500/40" />
+                      {/* inner dark chip — 38x38 */}
+                      <div className="absolute h-9 w-9 rounded-full bg-black/80 flex items-center justify-center">
+                        <span className="text-[11px] font-semibold tracking-[0.18em] text-slate-100">
+                          VS
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Away input */}
+                  <div className="flex-1">
+                    <TeamSearchDropdown
+                      teams={teams}
+                      selectedTeam={awayTeam}
+                      onSelect={setAwayTeam}
+                      /* no label here – labels are above */
+                    />
+                  </div>
+                </div>
               </div>
               
-              <button
-                onClick={runSimulation}
-                disabled={!canSimulate || simLoading}
-                className={`w-full py-3 rounded-lg font-semibold transition-all ${
-                  canSimulate && !simLoading
-                    ? 'btn-primary'
-                    : 'bg-slate-700 text-slate-500 cursor-not-allowed'
-                }`}
-              >
-                {simLoading ? 'Simulating...' : 'Simulate'}
-              </button>
-              
+              {/* Error Message */}
               {homeTeam && awayTeam && homeTeam.id === awayTeam.id && (
-                <p className="mt-2 text-red-400 text-sm text-center">
+                <p className="mb-4 text-red-400 text-sm text-center">
                   Select two different teams
                 </p>
               )}
               
+              {/* Simulate Button */}
+              <button
+                  onClick={runSimulation}
+                  disabled={!canSimulate || simLoading}
+                  className={`group relative mt-1 inline-flex w-full items-center justify-center overflow-hidden rounded-full border text-sm font-semibold transition-all duration-200 py-3 sm:py-3.5${
+                    canSimulate && !simLoading
+                      ? 'border-purple-400/60 bg-gradient-to-r from-purple-500 via-fuchsia-500 to-purple-500 text-white shadow-[0_18px_45px_rgba(0,0,0,0.55)] hover:shadow-[0_22px_55px_rgba(0,0,0,0.75)] hover:-translate-y-[1px] active:translate-y-0 '
+                      : 'border-slate-700 bg-slate-900/60 text-slate-500 cursor-not-allowed'
+                  }`}
+                >
+                  {/* subtle shine on hover */}
+                  {canSimulate && !simLoading && (
+                    <span className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-gradient-to-r from-white/10 via-transparent to-white/5" />
+                  )}
+
+                  <span className="relative flex items-center gap-2">
+                    {simLoading ? (
+                      <>
+                        <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                        </svg>
+                        Simulating…
+                      </>
+                    ) : (
+                      'Simulate Matchup'
+                    )}
+                  </span>
+                </button>
+              
+              {simError && (
+                <p className="mt-3 text-xs text-rose-300/90">
+                  {simError}
+                </p>
+              )}
+
+              {/* Results Area */}
               {simResult && (
-                <div className="mt-4 pt-4 border-t border-slate-700">
+                <div className="mt-6 pt-6 border-t border-white/10">
                   <ProbabilityBar
                     homeTeam={simResult.home_team.name}
                     awayTeam={simResult.away_team.name}
                     homeWinProb={simResult.home_win_prob}
                     awayWinProb={simResult.away_win_prob}
                   />
-                  <p className="text-center mt-3 text-slate-400">
-                    Predicted: <span className={simResult.predicted_winner === 'home' ? 'text-blue-400' : 'text-red-400'}>
-                      {simResult.predicted_winner === 'home' ? simResult.home_team.name : simResult.away_team.name}
+                  <p className="mt-4 text-center text-slate-400">
+                    Predicted Winner:{' '}
+                    <span
+                      className={`font-semibold ${
+                        simResult.predicted_winner === 'home'
+                          ? 'text-violet-300'   // matches home bar
+                          : 'text-slate-300'    // matches away bar
+                      }`}
+                    >
+                      {simResult.predicted_winner === 'home'
+                        ? simResult.home_team.name
+                        : simResult.away_team.name}
                     </span>
                   </p>
+
                 </div>
               )}
             </div>
           </div>
 
           {/* Predictions Table */}
-          <div className="card-static">
+          <div className="card">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
               <div>
                 <h2 className="text-lg font-semibold text-white">

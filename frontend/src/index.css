@@ -1,3 +1,5 @@
+/*rc/index.css*/
+
 @import "tailwindcss";
 
 /* ===== COLOR PALETTE ===== */
@@ -58,25 +60,46 @@ body::before {
 
 /* ===== CARD STYLES ===== */
 .card {
-  background-color: var(--bg-card);
-  border: 1px solid var(--border-subtle);
-  border-radius: 12px;
+  /* Balanced purple gradient — visible but not heavy */
+  background: linear-gradient(
+      155deg,
+      rgba(42, 32, 70, 0.95) 0%,      /* lighter, soft purple */
+      rgba(26, 21, 45, 0.96) 100%     /* darker purple, not black */
+    ),
+    radial-gradient(
+      circle at top left, 
+      rgba(139, 92, 246, 0.12),
+      transparent 60%
+    );
+
+  border-radius: 16px;
+  border: 1px solid rgba(148, 163, 184, 0.16);
   padding: 1.5rem;
-  transition: all 0.2s ease;
+
+  box-shadow:
+    0 14px 32px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+
+  transition:
+    transform 150ms ease-out,
+    border-color 150ms ease-out,
+    box-shadow 150ms ease-out;
 }
 
-.card:hover {
-  border-color: var(--border-glow);
-  box-shadow: 0 0 20px var(--accent-glow);
+.card-hover {
+  cursor: pointer;
 }
 
-/* Card without hover effect */
-.card-static {
-  background-color: var(--bg-card);
-  border: 1px solid var(--border-subtle);
-  border-radius: 12px;
-  padding: 1.5rem;
+.card-hover:hover {
+  transform: translateY(-2px);
+
+  border-color: rgba(139, 92, 246, 0.35);
+
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.55),
+    0 0 24px rgba(139, 92, 246, 0.18);
 }
+
 
 /* ===== BUTTON STYLES ===== */
 .btn-primary {

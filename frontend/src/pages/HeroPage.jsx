@@ -27,39 +27,57 @@ function HeroPage() {
         <div className="flex items-center justify-between gap-12 py-16">
           
           {/* Left side - Text content */}
-          <div className="flex-1 max-w-xl">
-            <h1 className="text-6xl font-extrabold leading-tight mb-6">
-              <span className="text-gradient">D3 Football</span>
-              <br />
-              <span className="text-white">Predictions</span>
-            </h1>
-            
-            <p className="text-xl text-slate-400 mb-8 leading-relaxed">
-              Machine learning predictions for NCAA Division III football games. 
-              Powered by rolling team statistics and historical performance data.
+          <div className="flex-1 max-w-xl translate-x-4">
+            <div className="max-w-2xl space-y-7">
+            {/* Eyebrow */}
+            <p className="text-xs font-semibold tracking-[0.28em] uppercase text-slate-400">
+              NCAA Division III • Machine Learning
             </p>
 
-            {/* Accuracy stat */}
-            <div className="flex items-baseline gap-3 mb-8">
-              <span className="text-5xl font-extrabold text-violet-400">79.9%</span>
-              <div className="flex flex-col">
-                <span className="text-white font-semibold">Prediction Accuracy</span>
-                <span className="text-slate-500 text-sm">Across 800+ games</span>
+            {/* H1 */}
+            <h1 className="text-6xl md:text-7xl font-semibold leading-[1.05] text-white">
+              <span className="block text-purple-400">D3 Football</span>
+              <span className="block">Predictions</span>
+            </h1>
+
+            {/* Solid accent bar */}
+            <div className="h-[3px] w-24 rounded-full bg-purple-500" />
+
+            {/* Intro copy */}
+            <p className="text-lg md:text-xl text-slate-300 max-w-xl">
+              Machine learning predictions for NCAA Division III football games, powered by
+              rolling team statistics and historical performance data.
+            </p>
+          </div>
+
+
+            {/* Metric Chip */}
+            <div className="inline-flex flex-col items-start px-5 py-4 rounded-xl bg-black/30 border border-white/10 backdrop-blur-sm mt-4 mb-4">
+              <div className="flex items-baseline gap-2">
+                <span className="text-4xl font-bold text-white">{79.95}%</span>
+                <span className="text-sm font-semibold text-slate-300">
+                  Prediction Accuracy
+                </span>
               </div>
+              <span className="text-xs text-slate-400 mt-1">
+                Across {838}+ games
+              </span>
             </div>
+
 
             <button 
               onClick={() => navigate('/dashboard')}
-              className="btn-primary text-lg px-8 py-4"
-            >
-              Enter Dashboard →
-            </button>
+              className="mt-2 px-6 py-3 rounded-full bg-purple-600 hover:bg-purple-700 transition-all text-white font-medium shadow-lg shadow-purple-600/30 flex items-center gap-2"
+              >
+                Enter Dashboard
+                <span className="text-lg">→</span>
+              </button>
           </div>
 
           {/* Right side - Logo */}
-          <div className="flex-shrink-0 relative">
-            <div className="absolute inset-0 bg-purple-500/30 rounded-full blur-3xl scale-150"></div>
-            <TiltLogo size={650} />
+          <div className="flex-shrink-0 relative translate-x-14">
+            <div className="absolute inset-0 bg-purple-500/30 rounded-full blur-3xl scale-100"></div>
+            <TiltLogo size={620} />
           </div>
         </div>
 
@@ -87,7 +105,7 @@ function HeroPage() {
               </h3>
               <p className="text-slate-400 leading-relaxed">
                 Teams are rated using an ELO-based system that adjusts after each game. 
-                Wins against stronger opponents yield larger rating gains.
+                Wins against stronger opponents yield larger rating gains. Produced a ~12% increase in predictive accuracy
               </p>
             </div>
 

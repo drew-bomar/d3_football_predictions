@@ -1,3 +1,5 @@
+//src/api/simulate.js
+
 import { fetchAPI } from './client'
 
 export async function getMeta(){
