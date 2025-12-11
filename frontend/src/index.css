@@ -28,11 +28,32 @@
   --border-glow: rgba(139, 92, 246, 0.5);
 }
 
-/* ===== BASE STYLES ===== */
+/* ===== ENHANCED BACKGROUND ===== */
 body {
   background-color: var(--bg-primary);
   color: var(--text-primary);
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  
+  /* Add subtle gradient overlay */
+  background-image: 
+    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(139, 92, 246, 0.15), transparent),
+    radial-gradient(ellipse 60% 40% at 100% 0%, rgba(192, 38, 211, 0.1), transparent),
+    radial-gradient(ellipse 50% 30% at 0% 100%, rgba(99, 102, 241, 0.1), transparent);
+  background-attachment: fixed;
+}
+
+/* Optional: Add subtle animated grain texture for depth */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='1' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  opacity: 0.03;
+  pointer-events: none;
+  z-index: -1;
 }
 
 /* ===== CARD STYLES ===== */
@@ -127,6 +148,8 @@ body {
   height: 8px;
 }
 
+
+
 ::-webkit-scrollbar-track {
   background: var(--bg-secondary);
 }
@@ -138,13 +161,4 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--accent-lavender);
-}
-
-@keyframes spin-slow {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-.animate-spin-slow {
-  animation: spin-slow 20s linear infinite;
 }

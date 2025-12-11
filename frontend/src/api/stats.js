@@ -1,3 +1,4 @@
+//api/stats.js
 import { fetchAPI} from './client'
 
 export async function getAccuracy(){

@@ -1,15 +1,16 @@
 // src/pages/HeroPage.jsx
 
 import { useNavigate } from 'react-router-dom'
-import SpinningLogo from '../components/SpinningLogo'
+import TiltLogo from '../components/TiltLogo'
 
 function HeroPage() {
   const navigate = useNavigate()
 
   return (
-    <div className="relative min-h-[calc(100vh-64px)] w-full overflow-hidden">
+    //negative margin -m-16 to pull up the hero background behind the navbar
+    <div className="relative min-h-screen w-full overflow-hidden -mt-20 pt-16">
       
-      {/* Background decorative shapes - now relative to full viewport */}
+      {/* Background decorative shapes - now extend behind navbar */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-[-20%] right-[-5%] w-[800px] h-[800px] rounded-full bg-purple-600/20 blur-3xl"></div>
         <div className="absolute bottom-[-30%] left-[-10%] w-[600px] h-[600px] rounded-full bg-fuchsia-600/20 blur-3xl"></div>
@@ -19,7 +20,7 @@ function HeroPage() {
         <div className="absolute top-0 right-[35%] w-[2px] h-[150%] bg-gradient-to-b from-transparent via-purple-500/30 to-transparent rotate-[25deg]"></div>
       </div>
 
-      {/* Content container - constrained width */}
+      {/* Content container - unchanged from here down */}
       <div className="relative z-10 max-w-7xl mx-auto px-6">
         
         {/* Main hero content - side by side */}
@@ -56,10 +57,10 @@ function HeroPage() {
           </div>
 
           {/* Right side - Logo */}
-            <div className="flex-shrink-0 relative">
-                <div className="absolute inset-0 bg-purple-500/30 rounded-full blur-3xl scale-150"></div>
-                <SpinningLogo size={500} />
-            </div>
+          <div className="flex-shrink-0 relative">
+            <div className="absolute inset-0 bg-purple-500/30 rounded-full blur-3xl scale-150"></div>
+            <TiltLogo size={650} />
+          </div>
         </div>
 
         {/* About the Model Section */}
