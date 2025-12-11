@@ -1,1 +1,150 @@
 @import "tailwindcss";
+
+/* ===== COLOR PALETTE ===== */
+:root {
+  /* Backgrounds */
+  --bg-primary: #0d0a1a;      /* Darkest - page background */
+  --bg-secondary: #13101f;    /* Slightly lighter - for depth */
+  --bg-card: #1a1528;         /* Card backgrounds */
+  --bg-card-hover: #231d35;   /* Card hover state */
+  
+  /* Accent Colors */
+  --accent-purple: #8b5cf6;   /* Primary purple */
+  --accent-lavender: #a78bfa; /* Lighter purple */
+  --accent-magenta: #c026d3;  /* Vibrant magenta for highlights */
+  --accent-glow: rgba(139, 92, 246, 0.4); /* Purple glow effect */
+  
+  /* Text */
+  --text-primary: #f1f5f9;    /* Main text - almost white */
+  --text-secondary: #94a3b8;  /* Muted text */
+  --text-muted: #64748b;      /* Even more muted */
+  
+  /* Status Colors */
+  --success: #10b981;         /* Green - correct predictions */
+  --error: #ef4444;           /* Red - wrong predictions */
+  
+  /* Borders */
+  --border-subtle: rgba(139, 92, 246, 0.2);
+  --border-glow: rgba(139, 92, 246, 0.5);
+}
+
+/* ===== BASE STYLES ===== */
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* ===== CARD STYLES ===== */
+.card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  padding: 1.5rem;
+  transition: all 0.2s ease;
+}
+
+.card:hover {
+  border-color: var(--border-glow);
+  box-shadow: 0 0 20px var(--accent-glow);
+}
+
+/* Card without hover effect */
+.card-static {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+/* ===== BUTTON STYLES ===== */
+.btn-primary {
+  background: linear-gradient(135deg, var(--accent-purple), var(--accent-magenta));
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px var(--accent-glow);
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* ===== TABLE STYLES ===== */
+.table-dark {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-dark th {
+  text-align: left;
+  padding: 0.75rem 1rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.table-dark td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.table-dark tbody tr {
+  transition: background-color 0.15s ease;
+}
+
+.table-dark tbody tr:hover {
+  background-color: var(--bg-card-hover);
+}
+
+/* ===== UTILITY CLASSES ===== */
+.text-gradient {
+  background: linear-gradient(135deg, var(--accent-lavender), var(--accent-magenta));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.glow-border {
+  border: 1px solid var(--border-glow);
+  box-shadow: 0 0 15px var(--accent-glow);
+}
+
+/* ===== SCROLLBAR (optional but nice) ===== */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--accent-purple);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-lavender);
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 20s linear infinite;
+}
