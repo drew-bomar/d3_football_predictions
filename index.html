@@ -5,10 +5,23 @@
     <link rel="icon" type="image/svg+xml" href="/d3_football_predictions/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>frontend</title>
-    <script type="module" crossorigin src="/d3_football_predictions/assets/index-DNT3VALt.js"></script>
+    <script type="module" crossorigin src="/d3_football_predictions/assets/index-DAaOrry7.js"></script>
     <link rel="stylesheet" crossorigin href="/d3_football_predictions/assets/index-D8tmORIa.css">
   </head>
   <body>
+      <script>
+        // Handle redirect from 404.html
+        (function(){
+          var redirect = sessionStorage.redirect;
+          delete sessionStorage.redirect;
+          if (redirect && redirect !== location.href) {
+            history.replaceState(null, null, redirect);
+          }
+        })();
+      </script>
+
+
+
     <div id="root"></div>
   </body>
 </html>
