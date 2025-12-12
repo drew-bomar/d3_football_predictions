@@ -1,0 +1,16 @@
+Learnings
+
+Session 14 - 08/01/2025 
+    - benefits of SQL vs noSQL, SQl much better for consistent relational data like bank records or team stats whereas noSQl is better if data will have to be scaled or there is much variability and data flexibility is required
+
+Session 15 - 08/03/2025 
+    - benefits of connection pooling: cuts out the connection time overhead when querying from the database, by having working connections "pooled up" (with a max of 15) you can immediatley query the database and get a quick reponse
+    - what a thread is: eseentially what web apps use to complete tasks, and one thread can only complete one task at a time so web apps will have a bunch of threads running at once, and if each thread has its own scoped session, then the threads won't interfere with each others tasks. Think of the thread as a waiter analogy and the data as the customers orders, isolated session prevents one waiters tables orders from leaking into anothers and causing in correct data
+
+Session 16 - 08/05/2025
+    -foreign keys : direct references to object from other tables. They tie two tables together and signify relationships. Important for maintianing referntial integrity(can't reference an object that doesn't exist
+
+Session 19 08/07/2025
+    -importance of caching : prevent the time it takes to hit a database for a value everytime, just load specific values for common queries you know will be repeated. massively reduces quyery time
+
+Model Calibration- adjusting a predictive models output (usually the confidence scores) to accuratley affect the true probability of that outcome
